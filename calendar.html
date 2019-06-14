@@ -248,12 +248,24 @@
         // THIS KEY WON'T WORK IN PRODUCTION!!!
         // To make your own Google API key, follow the directions here:
         // http://fullcalendar.io/docs/google_calendar/
-        googleCalendarApiKey: 'AIzaSyDrYIH7ICRA2boGpAvuDHP6ZIHO4pqDTR0',
-
-        // US Holidays
-        events: {
-          googleCalendarId: 'uj836bgdm4oagkbe5h6defn5d4@group.calendar.google.com',
-      },
+        googleCalendarApiKey: 'AIzaSyAL1pZoY1rs-DKj3l2KdqiDOpcVrcrmjOY',
+        eventSources: [
+          {
+            googleCalendarId: 'eaglecreeklodgecalendar@gmail.com'
+          },
+          {
+            googleCalendarId: 'u2qj0vat71lkciquq99nbfbbu0@group.calendar.google.com',
+            className: 'football'
+          },
+          {
+            googleCalendarId: 'en.usa#holiday@group.v.calendar.google.com',
+            className: 'holidays'
+          },
+          {
+            googleCalendarId: 'kj91jn1uifkgvjsau8dappv0hl5atpg0@import.calendar.google.com',
+            className: 'airbnb'
+          }
+        ],
 
         //eventClick: function(arg) {
 
