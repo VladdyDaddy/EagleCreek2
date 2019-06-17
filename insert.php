@@ -21,7 +21,7 @@ if ($email == $clean_email && filter_var($email,FILTER_VALIDATE_EMAIL)){
 // Attempt insert query execution
 $sql = "INSERT INTO newsletter (email) VALUES ('$clean_email')";
 if(mysqli_query($link, $sql)){
-    echo "Records added successfully";
+    header("Location: index2.html");
 } else{
     echo "ERROR: Not able to execute $sql. " . mysqli_error($link);
 }
