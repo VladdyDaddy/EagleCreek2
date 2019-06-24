@@ -141,6 +141,12 @@
               max-width: 255px;
             }
           </style>
+          <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+           <script>
+             function onSubmit(token) {
+               document.getElementById("noCap").submit();
+             }
+           </script>
         </head>
 
         <body>
@@ -521,7 +527,7 @@
                     <p class="pad-right1">Stay up to date with our latest news</p>
                     <div class="" id="mc_embed_signup">
 
-                      <form target="_blank" action="insert.php" method="post" class="form-inline">
+                      <form target="_blank" action="insert.php" method="post" class="form-inline" id="noCap">
 
                         <div class="d-flex flex-row">
 
@@ -529,7 +535,7 @@
                             onblur="this.placeholder = 'Enter Email '" required="" type="email">
 
 
-                          <button class="click-btn btn btn-default"><span class="lnr lnr-arrow-right"></span></button>
+                          <button class="click-btn btn btn-default g-recaptcha" data-sitekey="6LdM7akUAAAAAKY5Jcag5VvbEkre86r9ZdK7GlY5" data-callback='onSubmit'><span class="lnr lnr-arrow-right"></span></button>
                           <!--<div style="position: absolute; left: -5000px;">
                             <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
                           </div>-->
