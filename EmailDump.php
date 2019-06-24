@@ -128,84 +128,130 @@
     </div>
     <div id="header_placeholder"></div>
   </header>
+
+</body>
+</html>
   <!--================Header Menu Area =================-->
+  <?php
+  // Initialize the session
+  session_start();
 
+  // Check if the user is already logged in, if yes then redirect him to welcome page
+  if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+      header("location: weddings.html");
+      exit;
+  }
+
+  // Include config file
+  require_once "welcome.php";
+
+  // Define variables and initialize with empty values
+  $username = $password = "";
+  $username_err = $password_err = "";
+
+  // Processing form data when form is submitted
+  if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+      // Check if username is empty
+      if(empty(trim($_POST["username"]))){
+          $username_err = "Please enter username.";
+      } else{
+          $username = trim($_POST["username"]);
+      }
+
+      // Check if password is empty
+      if(empty(trim($_POST["password"]))){
+          $password_err = "Please enter your password.";
+      } else{
+          $password = trim($_POST["password"]);
+      }
+
+      // Validate credentials
+      if(empty($username_err) && empty($password_err)){
+          // Prepare a select statement
+          $sql = "SELECT id, username, password FROM users WHERE username = ?";
+
+          if($stmt = mysqli_prepare($link, $sql)){
+              // Bind variables to the prepared statement as parameters
+              mysqli_stmt_bind_param($stmt, "s", $param_username);
+
+              // Set parameters
+              $param_username = $username;
+
+              // Attempt to execute the prepared statement
+              if(mysqli_stmt_execute($stmt)){
+                  // Store result
+                  mysqli_stmt_store_result($stmt);
+
+                  // Check if username exists, if yes then verify password
+                  if(mysqli_stmt_num_rows($stmt) == 1){
+                      // Bind result variables
+                      mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
+                      if(mysqli_stmt_fetch($stmt)){
+                          if(password_verify($password, $hashed_password)){
+                              // Password is correct, so start a new session
+                              session_start();
+
+                              // Store data in session variables
+                              $_SESSION["loggedin"] = true;
+                              $_SESSION["id"] = $id;
+                              $_SESSION["username"] = $username;
+
+                              // Redirect user to welcome page
+                              header("location: welcome.php");
+                          } else{
+                              // Display an error message if password is not valid
+                              $password_err = "The password you entered was not valid.";
+                          }
+                      }
+                  } else{
+                      // Display an error message if username doesn't exist
+                      $username_err = "No account found with that username.";
+                  }
+              } else{
+                  echo "Oops! Something went wrong. Please try again later.";
+              }
+          }
+
+          // Close statement
+          mysqli_stmt_close($stmt);
+      }
+
+      // Close connection
+      mysqli_close($link);
+  }
+  ?>
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <body>
   <main class="site-main bodyCustom">
-
-    <!-- Modal -->
-    <div class="modal fade" id="modalSuccess" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Thank you for contacting us</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Thank you for contacting us, $visitor_name. You will get a reply within 24 hours.
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!----------------------------------------------------------------->
-
-    <!-- Modal -->
-    <div class="modal fade" id="modalFail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Error</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            We are sorry but the email did not go through.
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!----------------------------------------------------------------->
-
-    <div class="container contact-form">
-          <div class="container">
-            <div class="row">
-                <div class="contact-image col-lg-3">
-                    <i class="far fa-address-book fa-7x"></i>
-                </div>
-              </div>
+    <div class="wrapper">
+        <h2>Login</h2>
+        <p>Please fill in your credentials to login.</p>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+                <label>Username</label>
+                <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
+                <span class="help-block"><?php echo $username_err; ?></span>
             </div>
-                <form action="contact.php" method="post">
-                    <h3 class="center padBottom">Drop Us a Message</h3>
-                   <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="text" name="visitor_name" class="form-control" placeholder="Your Name *" value="" pattern=[A-Z\sa-z]{3,20} required/>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" name="visitor_email" class="form-control" placeholder="Your Email *" value="" required/>
-                            </div>
-                            <div class="form-group">
-                                <input name="visitor_phone" class="form-control" placeholder="Your Phone Number ex: 814823546" value="" required/>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" name="btnSubmit" class="btnContact" value="Send Message" />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <textarea name="visitor_message" class="form-control" placeholder="Your Message *" style="width: 100%; height: 150px;" required></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+            <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control">
+                <span class="help-block"><?php echo $password_err; ?></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Login">
+            </div>
+        </form>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 center padBottom">
+          <a href="export.php" class="btn btn-info" role="button">Dump Email Database!</a>
+        </div>
+      </div>
     </div>
 
   </main>
