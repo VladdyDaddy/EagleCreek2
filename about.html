@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Zilla+Slab" rel="stylesheet">
 
+  <script src="https://www.google.com/recaptcha/api.js?render=6Lfxx6kUAAAAAPktpbROV3V69fX81UEJ1U-_Wal1"></script>
 
   <style>
     html,
@@ -106,38 +107,38 @@
       transform: rotate(180deg);
     }
 
-    .aboutText{
+    .aboutText {
       font-size: 1.5em;
     }
 
-    .marginBot{
+    .marginBot {
       margin-bottom: 5em;
     }
 
-        .img-responsivex {
-          height: auto;
-          width: auto;
-          max-height: 77px;
-          max-width: 255px;
-        }
-      </style>
-    </head>
+    .img-responsivex {
+      height: auto;
+      width: auto;
+      max-height: 77px;
+      max-width: 255px;
+    }
+  </style>
+</head>
 
-    <body>
-      <!--================Header Menu Area =================-->
-      <header class="header_area navCustom">
-        <div class="main_menu">
-          <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container box_1620">
-              <!-- Brand and toggle get grouped for better mobile display -->
-              <a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt="logo"
-                  class="img-responsivex"></a>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
+<body>
+  <!--================Header Menu Area =================-->
+  <header class="header_area navCustom">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container box_1620">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt="logo"
+              class="img-responsivex"></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav mr-auto">
@@ -186,14 +187,16 @@
           <img class="img-responsive" src="img/frontCar/people1.jpg" alt="About1">
         </div>
         <div class="col-lg-6">
-          <p class="black1 aboutText">Eagle Creek Lodge is conveniently located in Port Matilda, Pennsylvania, just 12 miles from
+          <p class="black1 aboutText">Eagle Creek Lodge is conveniently located in Port Matilda, Pennsylvania, just 12
+            miles from
             Penn
             State University. We are situated in the center of the scenic Bald Eagle Valley on the banks of
             the Bald Eagle Creek. The lodge is designed to accommodate between 18 and 20 people and is fully
             equipped with a custom kitchen and bar as well as three surround sound televisions, making it
             the perfect space for entertaining large groups.
           </p>
-          <p class="black1 aboutText">Whether you are looking to plan a relaxing weekend getaway with family and friends or attend
+          <p class="black1 aboutText">Whether you are looking to plan a relaxing weekend getaway with family and friends
+            or attend
             a
             Penn State sporting event, Eagle Creek Lodge is the place for you. During football season, our
             cottage is a great place to spend the day before and after the game with ample space for all
@@ -207,6 +210,7 @@
       <div class="row pad-bottom">
         <div class="col-lg-12 center">
           <h1>The Real Interns of Happy Valley</h1>
+          <h1>reCAPTCHA</h1>
         </div>
       </div>
 
@@ -220,7 +224,11 @@
         <div class="col-lg-6">
           <p class="black1 aboutText">
             <b>[Left to Right] Pierre, Stephen, Vladimir, Rory, Rihad</b><br>
-            With the help of some great Summer Interns from Surge Business Development, Eagle Creek has been able to flourish more than ever before. While pairing these interns with our employees and owners, we have been able to collaborate on ideas that after implemented took us to the next level. When great minds come together, great things happen. We promise that staying at Eagle Creek will be a tremendous experience that will have you wanting to come back for years to come!
+            With the help of some great Summer Interns from Surge Business Development, Eagle Creek has been able to
+            flourish more than ever before. While pairing these interns with our employees and owners, we have been able
+            to collaborate on ideas that after implemented took us to the next level. When great minds come together,
+            great things happen. We promise that staying at Eagle Creek will be a tremendous experience that will have
+            you wanting to come back for years to come!
           </p>
         </div>
         <div class="col-lg-6 aboutText">
@@ -254,7 +262,7 @@
 
                 <div class="d-flex flex-row">
 
-                  <input class="form-control" name="email" placeholder="Enter Email" onfocus="this.placeholder = ''"
+                  <input class="form-control" id="g-recaptcha-response" name="email g-recaptcha-response" placeholder="Enter Email" onfocus="this.placeholder = ''"
                     onblur="this.placeholder = 'Enter Email '" required="" type="email">
 
 
@@ -266,6 +274,14 @@
                 </div>
                 <div class="info"></div>
               </form>
+              <script>
+                  grecaptcha.ready(function() {
+                      grecaptcha.execute('6Lfxx6kUAAAAAPktpbROV3V69fX81UEJ1U-_Wal1', {action: 'homepage'}).then(function(token) {
+                        //console.log(token);
+                        document.getElementById("g-recaptcha-response").value=token;
+                      });
+                  });
+                  </script>
             </div>
           </div>
         </div>
@@ -299,6 +315,7 @@
   <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="vendors/owl-carousel/owl.carousel.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js\reCAP.js"></script>
 
 </body>
 
